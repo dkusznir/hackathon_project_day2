@@ -1,22 +1,21 @@
-try:
-    from msvcrt import getch
-except ImportError:
-    def getch():
-        import sys
-        import tty
-        import termios
-        fd = sys.stdin.fileno()
-        old = termios.tcgetattr(fd)
-        try:
-            tty.setraw(fd)
-            return sys.stdin.read(1)
-        finally:
-            termios.tcsetattr(fd, termios.TCSADRAIN, old)
+import sys
+import tty
+import termios
+from msvcrt import getch
+
+def getch():
+    fd = sys.stdin.fileno()
+    old = termios.tcgetattr(fd)
+    try:
+        tty.setraw(fd)
+        return sys.stdin.read(1)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old)
 
 while True:
     key = ord(getch())
 
-    if str(key) == '17':
+    if key == 17:
         break
     elif key == 65:
         print "up arrow"
